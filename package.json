@@ -10,7 +10,14 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "pro": "tsc && node dist/index.js",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "typeorm": "typeorm-ts-node-esm",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/data/database.ts",
+    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d ./src/data/database.ts",
+    "schema:sync": "npm run typeorm schema:sync -- -d ./src/data/database.ts",
+    "migration:show": "npm run typeorm migration:show -- -d ./src/data/database.ts",
+    "migration:generate": "npm run typeorm migration:generate -- -d ./src/data/database.ts",
+    "migration:create": "npm run typeorm:create"
   },
   "keywords": ["TypeScript", "Express", "PostgreSQL", "TypeORM"],
   "author": "Craig Johnson",
