@@ -4,6 +4,7 @@
         "strict": true,
         "strictPropertyInitialization": false,
         "outDir": "./dist/",
+        "rootDir": "./src/",
         "isolatedModules": true,
         "resolveJsonModule": true,
         "module": "NodeNext",

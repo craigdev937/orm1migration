@@ -5,7 +5,7 @@ import helmet from "helmet";
 import logger from "morgan";
 import { trim } from "./middleware/trim";
 import { ERR } from "./middleware/midError";
-import { playRt } from "./routes/PlayerRt";
+import { userRt } from "./routes/UserRt";
 import { dBase } from "./data/database";
 
 (async () => {
@@ -32,7 +32,7 @@ import { dBase } from "./data/database";
     app.use(express.json());
     app.use(logger("dev"));
     app.use(trim);
-    app.use("/api/player", playRt);
+    app.use("/api/user", userRt);
     app.use(ERR.notFound);
     app.use(ERR.errHandler);
     const port = process.env.PORT || 9000;
