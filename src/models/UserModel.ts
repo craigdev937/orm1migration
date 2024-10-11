@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity,
 
 @Entity({name: "users"})
 export class User extends BaseEntity {
-    @PrimaryGeneratedColumn("uuid") id: string;
+    @PrimaryGeneratedColumn() id: number;
     @Column() name: string;
     @Column({unique: true}) email: string;
     @Column() password: string;
