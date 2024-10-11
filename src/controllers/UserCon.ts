@@ -8,11 +8,11 @@ class UserClass {
             .createQueryBuilder()
             .insert()
             .into(User)
-            .values([{
-                name: "Elizabeth Tang", 
-                email: "liz@hdq.com", 
-                password: "Magic123"
-            }])
+            .values({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            })
             .execute()
             res.status(200).json(user);
         } catch (error) {
@@ -47,11 +47,11 @@ class UserClass {
         }
     };
 
-    Id: express.Handler = async (req, res, next) => {
+    GetOne: express.Handler = async (req, res, next) => {
         try {
             const user = await User
             .createQueryBuilder("users")
-            .where("users.id = :id", {id: 2})
+            .where({id: req.params.id})
             .getOne()
             res.status(200)
             .json(user);
@@ -66,8 +66,12 @@ class UserClass {
             let user = await User
             .createQueryBuilder()
             .update(User)
-            .set({ name: "Nina Cortez", email: "nina@hdq.com" })
-            .where("id = :id", { id: 5 })
+            .set({ 
+                name: req.body.name, 
+                email: req.body.email, 
+                password: req.body.password 
+            })
+            .where("id = :id", { id: req.params.id })
             .execute()
             res.status(200).json(user);
         } catch (error) {
@@ -82,7 +86,7 @@ class UserClass {
             .createQueryBuilder()
             .delete()
             .from(User)
-            .where("id = :id", {id: 2})
+            .where("id = :id", {id: req.params.id})
             .execute()
             res.status(200).json(user);
         } catch (error) {
@@ -90,21 +94,6 @@ class UserClass {
             next(error);
         }
     };
-
-    // Create: express.Handler = async (req, res, next) => {
-    //     try {
-    //         const user = User.create({
-    //             name: req.body.name,
-    //             email: req.body.email,
-    //             password: req.body.password
-    //         });
-    //         await user.save();
-    //         res.status(200).json(user);
-    //     } catch (error) {
-    //         res.status(500).json(res.statusMessage);
-    //         next(error);
-    //     }
-    // };
 };
 
 export const USER: UserClass = new UserClass();
