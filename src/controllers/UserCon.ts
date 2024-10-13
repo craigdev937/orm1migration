@@ -23,10 +23,13 @@ class UserClass {
 
     FetchAll: express.Handler = async (req, res, next) => {
         try {
-            await User
-                .find()
-                .then((users) => res.status(200)
-                .json(users));
+            const users = await User
+            .createQueryBuilder()
+            .select("users")
+            .from(User, "users")
+            .getMany()
+            res.status(200)
+            .json(users);
         } catch (error) {
             res.status(500).json(res.statusMessage);
             next(error);
@@ -51,7 +54,8 @@ class UserClass {
         try {
             const user = await User
             .createQueryBuilder("users")
-            .where({id: req.params.id})
+            .select()
+            .where("id = :id", {id: req.params.id})
             .getOne()
             res.status(200)
             .json(user);
