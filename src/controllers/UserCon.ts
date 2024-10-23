@@ -1,17 +1,17 @@
 import express from "express";
-import { User } from "../models/UserModel";
+import { UserModel } from "../models/UserMod";
 
 class UserClass {
     Create: express.Handler = async (req, res, next) => {
         try {
-            const user = await User
+            const user = await UserModel
             .createQueryBuilder()
             .insert()
-            .into(User)
+            .into(UserModel)
             .values({
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                age: req.body.age
             })
             .execute()
             res.status(200).json(user);
@@ -23,10 +23,10 @@ class UserClass {
 
     FetchAll: express.Handler = async (req, res, next) => {
         try {
-            const users = await User
+            const users = await UserModel
             .createQueryBuilder()
             .select("users")
-            .from(User, "users")
+            .from(UserModel, "users")
             .getMany()
             res.status(200)
             .json(users);
@@ -36,23 +36,9 @@ class UserClass {
         }
     };
 
-    Email: express.Handler = async (req, res, next) => {
-        try {
-            const user = await User
-            .createQueryBuilder("users")
-            .select(["users.email", "users.name"])
-            .getMany()
-            res.status(200)
-            .json(user);
-        } catch (error) {
-            res.status(500).json(res.statusMessage);
-            next(error);
-        }
-    };
-
     GetOne: express.Handler = async (req, res, next) => {
         try {
-            const user = await User
+            const user = await UserModel
             .createQueryBuilder("users")
             .select()
             .where("id = :id", {id: req.params.id})
@@ -67,13 +53,13 @@ class UserClass {
 
     Update: express.Handler = async (req, res, next) => {
         try {
-            let user = await User
+            let user = await UserModel
             .createQueryBuilder()
-            .update(User)
+            .update(UserModel)
             .set({ 
-                name: req.body.name, 
-                email: req.body.email, 
-                password: req.body.password 
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                age: req.body.age
             })
             .where("id = :id", { id: req.params.id })
             .execute()
@@ -86,10 +72,10 @@ class UserClass {
 
     Delete: express.Handler = async (req, res, next) => {
         try {
-            let user = await User
+            let user = await UserModel
             .createQueryBuilder()
             .delete()
-            .from(User)
+            .from(UserModel)
             .where("id = :id", {id: req.params.id})
             .execute()
             res.status(200).json(user);
